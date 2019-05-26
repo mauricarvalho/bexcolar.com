@@ -1,4 +1,7 @@
-package transport;
+package dijkstra;
+
+import models.Airport;
+import models.FlightNetwork;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -21,25 +24,27 @@ public class BuildFlightNetwork {
             String line;
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
-                Airport src = FlightNetwork.getAirport(values[0]) == null ? new Airport(values[0]) : FlightNetwork.getAirport(values[0]);
-                Airport dest = FlightNetwork.getAirport(values[1]) == null ? new Airport(values[1]) : FlightNetwork.getAirport(values[1]);
-
-                FlightNetwork.addAirport(src);
-                FlightNetwork.addAirport(dest);
-
-                if (isNumeric(values[2]))
-                    src.addDestination(dest, Integer.parseInt(values[2]));
-
+                addRoute(values[0], values[1], values[2]);
             }
 
         } catch (Exception e) {
             return false;
         }
-        System.out.println(FlightNetwork.getAirports());
         return true;
     }
 
-    private boolean isNumeric(String value) {
+    public static void addRoute(String _src, String _dst, String weight) {
+        Airport src = FlightNetwork.getAirport(_src) == null ? new Airport(_src) : FlightNetwork.getAirport(_src);
+        Airport dest = FlightNetwork.getAirport(_dst) == null ? new Airport(_dst) : FlightNetwork.getAirport(_dst);
+
+        FlightNetwork.addAirport(src);
+        FlightNetwork.addAirport(dest);
+
+        if (isNumeric(weight))
+            src.addDestination(dest, Integer.parseInt(weight));
+    }
+
+    private static boolean  isNumeric(String value) {
         try {
             Integer.parseInt(value);
             return true;

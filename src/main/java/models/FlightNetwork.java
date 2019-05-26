@@ -1,4 +1,6 @@
-package transport;
+package models;
+
+import models.Airport;
 
 import java.util.HashSet;
 import java.util.Set;

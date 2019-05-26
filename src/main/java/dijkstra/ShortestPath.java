@@ -1,4 +1,7 @@
-package transport;
+package dijkstra;
+
+import models.Airport;
+import models.FlightNetwork;
 
 import java.util.*;
 
