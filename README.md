@@ -1,5 +1,4 @@
 #### Requirement to RUN Bexcolar.com
-
 To run Bexcolar.com its required [JRE 8](https://www.oracle.com/technetwork/pt/java/javase/downloads/jre8-downloads-2133155.html?printOnly=1).
 ```sh
 $ java -jar bexcolar.com-1.0-SNAPSHOT.jar /absolute/path/input-file.csv 
@@ -18,7 +17,6 @@ $ java -jar bexcolar.com-1.0-SNAPSHOT.jar /absolute/path/input-file.csv
 ```
 
 ### Code Structure
-
 The folder are organized in the following way:
 
 | Folder | Info |
@@ -30,5 +28,17 @@ The folder are organized in the following way:
 | utils| common utility logic, constants and file operations(csv) |
 
 ### Architecture
-
 ![alt text](image.png)
+
+### Rest Api Usage
+Listening on port: *8084*
+
+Show best route between two airports:
+```sh
+GET  api/bex/route?src=GRU&dst=VCP
+```
+Adding routes:
+```sh
+POST  api/bex/route
+BODY  {"src":"GRU","dst":"VCP","weight":"5"}
+```
