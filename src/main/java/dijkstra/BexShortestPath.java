@@ -2,10 +2,13 @@ package dijkstra;
 
 import models.Airport;
 import models.FlightNetwork;
+import utils.FileOperations;
 
 import java.util.*;
 
-public class ShortestPath {
+import static utils.Constants.*;
+
+public class BexShortestPath {
 
 
     public static Set<Airport> calculateShortestPathFromSource(Airport source) {
@@ -58,21 +61,42 @@ public class ShortestPath {
         }
     }
 
-    public static String returnRouteToDestintion(Airport dest){
+    public static String returnRouteToDestintion(Airport dest) {
         StringBuilder route = new StringBuilder();
-        for(Airport d : FlightNetwork.getAirports()){
-            if(d.equals(dest)){
-                LinkedList<Airport> ll = d.getShortestPath();
-                route.append(ll.getFirst().getName());
-                ll.removeFirst();
-                while(!ll.isEmpty()){
-                    route.append(" - " + ll.getFirst().getName());
+        for (Airport d : FlightNetwork.getAirports()) {
+            if (d.equals(dest)) {
+                if (d.getDistance() > 0 && !d.getShortestPath().isEmpty()) {
+                    LinkedList<Airport> ll = d.getShortestPath();
+                    route.append(ll.getFirst().getName());
                     ll.removeFirst();
+                    while (!ll.isEmpty()) {
+                        route.append(" - " + ll.getFirst().getName());
+                        ll.removeFirst();
+                    }
+                    route.append(" - " + dest.getName() + " > " + d.getDistance());
                 }
-                route.append(" - " + dest.getName() +" > " + d.getDistance());
             }
         }
         return route.toString();
+    }
+
+    public static boolean buildNetwork(String csvFile) {
+        try {
+            if (!csvFile.endsWith(".csv")) {
+                System.out.println(INVALID_FILE);
+                return false;
+            }
+        } catch (ArrayIndexOutOfBoundsException e) {
+            System.out.println(INVALID_ARGUMENTS);
+            return false;
+        }
+
+        FileOperations buildNetwork = new FileOperations(csvFile);
+        if (!buildNetwork.readCsvFile()) {
+            System.out.println(CSV_ERROR);
+            return false;
+        }
+        return true;
     }
 
 }
